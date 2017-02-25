@@ -1,3 +1,4 @@
+// Package hotp implements the HOTP One-Time password algorithm.
 package hotp
 
 import (
@@ -17,14 +18,19 @@ func truncate(hash []byte) uint32 {
 		(uint32(hash[offset+3]) & 0xff)
 }
 
+// HOTP computes the HOTP One-Time password.
 type HOTP struct {
+	// Shared secret between client and server.
 	Key []byte
 }
 
+// NewHOTP returns a new HOTP computing the HOTP One-Time password.
 func NewHOTP(key []byte) *HOTP {
 	return &HOTP{Key: key}
 }
 
+// Gen generates a One-Time password based on the counter.
+// It trancates the password in digit.
 func (h *HOTP) Gen(counter uint64, digit int) (int, error) {
 	buf := bytes.NewBuffer(make([]byte, 0, 64))
 	err := binary.Write(buf, binary.BigEndian, counter)
