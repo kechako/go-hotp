@@ -30,7 +30,7 @@ func New(key []byte) *HOTP {
 }
 
 // Gen generates a One-Time password based on the counter.
-// It trancates the password in digit.
+// It trancates the password in digit. If digit <= 0, it doesn't truncate the password.
 func (h *HOTP) Gen(counter uint64, digit int) (int32, error) {
 	buf := bytes.NewBuffer(make([]byte, 0, 64))
 	err := binary.Write(buf, binary.BigEndian, counter)
@@ -43,6 +43,9 @@ func (h *HOTP) Gen(counter uint64, digit int) (int32, error) {
 	hash := mac.Sum(nil)
 
 	code := truncate(hash)
+	if digit <= 0 {
+		return code, nil
+	}
 
 	return code % int32(math.Pow10(digit)), nil
 }
