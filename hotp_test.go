@@ -36,9 +36,9 @@ var hotpTests = []struct {
 
 func TestGen(t *testing.T) {
 	hotpExpect := &HOTP{Key: key}
-	hotp := NewHOTP(key)
+	hotp := New(key)
 	if !reflect.DeepEqual(hotp, hotpExpect) {
-		t.Errorf("NewHOTP(%v)\n=> %#v,\nwant %#v", key, hotp, hotpExpect)
+		t.Errorf("New(%v)\n=> %#v,\nwant %#v", key, hotp, hotpExpect)
 	}
 
 	for _, tt := range hotpTests {

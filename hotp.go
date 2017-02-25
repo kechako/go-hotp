@@ -24,8 +24,8 @@ type HOTP struct {
 	Key []byte
 }
 
-// NewHOTP returns a new HOTP computing the HOTP One-Time password.
-func NewHOTP(key []byte) *HOTP {
+// New returns a new HOTP computing the HOTP One-Time password.
+func New(key []byte) *HOTP {
 	return &HOTP{Key: key}
 }
 
