@@ -10,7 +10,7 @@ var key = []byte{0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x30, 0x3
 var hotpTests = []struct {
 	inCounter uint64
 	inDec     int
-	out       int
+	out       int32
 }{
 	{0, 6, 755224},
 	{1, 6, 287082},

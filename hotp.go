@@ -9,13 +9,13 @@ import (
 	"math"
 )
 
-func truncate(hash []byte) uint32 {
+func truncate(hash []byte) int32 {
 	offset := hash[19] & 0x0f
 
-	return (uint32(hash[offset])&0x7f)<<24 |
-		(uint32(hash[offset+1])&0xff)<<16 |
-		(uint32(hash[offset+2])&0xff)<<8 |
-		(uint32(hash[offset+3]) & 0xff)
+	return (int32(hash[offset])&0x7f)<<24 |
+		(int32(hash[offset+1])&0xff)<<16 |
+		(int32(hash[offset+2])&0xff)<<8 |
+		(int32(hash[offset+3]) & 0xff)
 }
 
 // HOTP computes the HOTP One-Time password.
@@ -31,7 +31,7 @@ func New(key []byte) *HOTP {
 
 // Gen generates a One-Time password based on the counter.
 // It trancates the password in digit.
-func (h *HOTP) Gen(counter uint64, digit int) (int, error) {
+func (h *HOTP) Gen(counter uint64, digit int) (int32, error) {
 	buf := bytes.NewBuffer(make([]byte, 0, 64))
 	err := binary.Write(buf, binary.BigEndian, counter)
 	if err != nil {
@@ -44,5 +44,5 @@ func (h *HOTP) Gen(counter uint64, digit int) (int, error) {
 
 	code := truncate(hash)
 
-	return int(code % uint32(math.Pow10(digit))), nil
+	return code % int32(math.Pow10(digit)), nil
 }
