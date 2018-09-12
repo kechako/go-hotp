@@ -10,7 +10,7 @@ var key = []byte{0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x30, 0x3
 var hotpTests = []struct {
 	inCounter uint64
 	inDec     int
-	out       int32
+	out       int
 }{
 	{0, 6, 755224},
 	{1, 6, 287082},
@@ -52,10 +52,8 @@ func TestGen(t *testing.T) {
 	}
 
 	for _, tt := range hotpTests {
-		code, err := hotp.Gen(tt.inCounter, tt.inDec)
-		if err != nil {
-			t.Errorf("Gen(%d, %d) => %v", tt.inCounter, tt.inDec, err)
-		} else if code != tt.out {
+		code := hotp.Gen(tt.inCounter, tt.inDec)
+		if code != tt.out {
 			t.Errorf("Gen(%d, %d) => %d, want %d", tt.inCounter, tt.inDec, code, tt.out)
 		}
 	}
